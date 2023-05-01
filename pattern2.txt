@@ -1,0 +1,75 @@
+#include<iostream>
+#include<graphics.h>
+#include<math.h>
+using namespace std;
+void dda(int x1,int y1,int x2,int y2)
+{
+   int dx=x2-x1,dy=y2-y1,steps,i;
+   float x=x1,y=y1,xinc,yinc;
+   
+   if(abs(dx)>abs(dy))
+        steps=abs(dx);
+   else
+        steps=abs(dy);
+   xinc=(float)dx/(float)steps;
+   yinc=(float)dy/(float)steps;
+   
+   for(i=0;i<steps;i++)
+   {  
+      putpixel(round(x),round(y),RED);
+      x+=xinc;
+      y+=yinc;
+   
+   }
+
+}
+void drawcircle(int xc,int yc,int x,int y)
+{
+   putpixel(xc+x,yc+y,BLUE);
+   putpixel(xc-x,yc+y,BLUE);
+   putpixel(xc+x,yc-y,BLUE);
+   putpixel(xc-x,yc-y,BLUE);
+   putpixel(xc+y,yc+x,BLUE);
+   putpixel(xc-y,yc+x,BLUE);
+   putpixel(xc+y,yc-x,BLUE);
+   putpixel(xc-y,yc-x,BLUE);
+}
+void bresenham(int xc,int yc,int r)
+{
+   int x=0,y=r;
+   int d=3-(2*r);
+   while(x<=y)
+   {
+      drawcircle(xc,yc,x,y);
+      x=x+1;
+      if(d<0)
+      {
+         d=d+4*x+6;
+      }
+      else
+      {
+         y=y-1;
+         d=d+4*(x-y)+10;
+       }
+    }
+}
+ int main()
+{
+   cout<<"Enter values of xc,yc,r:";
+   int xc,yc,r;
+   int d;
+   
+   cin>>xc>>yc>>r;
+   d=sqrt(3)*r/2;
+   int gdriver=DETECT, gmode;
+   initgraph(&gdriver,&gmode,NULL);
+   bresenham(xc,yc,r);
+   cout<<xc<<(yc-r)<<(xc+d)<<(yc+(r/2));
+   dda(xc,yc-r,xc+d,yc+(r/2));
+   dda(xc+d,yc+(r/2),xc-d,yc+(r/2));
+   dda(xc-d,yc+(r/2),xc,yc-r);
+   bresenham(xc,yc,(r/2));
+   delay(3000);
+   closegraph();
+   return 0;
+}

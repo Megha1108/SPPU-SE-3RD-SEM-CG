@@ -1,0 +1,49 @@
+#include<iostream>
+#include<graphics.h>
+#include<math.h>
+using namespace std;
+void dda(int x1,int y1,int x2,int y2)
+{
+   int dx=x2-x1,dy=y2-y1,steps,i;
+   float x=x1,y=y1,xinc,yinc;
+   
+   if(abs(dx)>abs(dy))
+        steps=abs(dx);
+   else
+        steps=abs(dy);
+   xinc=(float)dx/(float)steps;
+   yinc=(float)dy/(float)steps;
+   putpixel(round(x),round(y),RED);
+   
+   for(i=0;i<steps;i++)
+   {  
+      putpixel(round(x),round(y),RED);
+      x+=xinc;
+      y+=yinc;
+   
+   }
+
+}
+
+int main()
+{
+        cout<<"Enter coordinates";
+        int x1,y1,x2,y2;
+cin>>x1>>y1>>x2>>y2;
+int gdriver=DETECT, gmode;
+initgraph(&gdriver,&gmode,NULL);
+dda(x1,y1,x1,y2);
+dda(x1,y2,x2,y2);
+dda(x2,y2,x2,y1);
+dda(x2,y1,x1,y1);
+dda((x1+x2)/2,y1,x1,(y1+y2)/2);
+dda(x1,(y1+y2)/2,(x1+x2)/2,y2);
+dda((x1+x2)/2,y2,x2,(y1+y2)/2);
+dda(x2,(y1+y2)/2,(x1+x2)/2,y1);
+dda((3*x1+x2)/4,(3*y1+y2)/4,(3*x1+x2)/4,(y1+3*y2)/4);
+dda((3*x1+x2)/4,(y1+3*y2)/4,(x1+3*x2)/4,(y1+3*y2)/4);
+dda((x1+3*x2)/4,(y1+3*y2)/4,(x1+3*x2)/4,(3*y1+y2)/4);
+dda((x1+3*x2)/4,(3*y1+y2)/4,(3*x1+x2)/4,(3*y1+y2)/4);
+delay(5000);
+closegraph;
+}
